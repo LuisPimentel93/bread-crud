@@ -10,8 +10,37 @@ breads.get('/', (req, res) => {
         title: "Index Pages"
       }
     )
-  // res.send(Bread)
+ 
 })
+
+breads.get('/new',(req, res) =>{
+  res.render('new')
+})
+
+breads.post('/', (req, res) =>{
+  if (!req.body.image) req.body.image = 'https://thumbs.dreamstime.com/b/bread-cut-14027607.jpg'
+  if(req.body.hasGluten === 'on'){
+      req.body.hasGluten = true
+  }else {
+    req.body.hasGluten = false
+  }
+
+  Bread.push(req.body)
+  res.redirect('/breads')
+    
+})
+
+
+
+breads.get('/', (req, res) => {
+  res.render('Index',{          
+      breads: Bread,
+      title: "Index Pages"
+    }
+  )
+
+})
+
 
 // SHOW
 breads.get('/:arrayIndex', (req, res) => {
@@ -21,5 +50,9 @@ breads.get('/:arrayIndex', (req, res) => {
     })
   })
   
+  breads.post('/', (req, res) =>{
+
+  })
+
 
 module.exports = breads
