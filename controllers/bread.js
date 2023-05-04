@@ -46,7 +46,8 @@ breads.get('/', (req, res) => {
 breads.get('/:arrayIndex', (req, res) => {
    const {arrayIndex} = req.params 
   res.render('show', {
-      bread: Bread[arrayIndex]
+      bread: Bread[arrayIndex],
+      arrayIndex: arrayIndex
     })
   })
   
@@ -54,5 +55,14 @@ breads.get('/:arrayIndex', (req, res) => {
 
   })
 
+
+  // Delete
+
+  breads.delete('/:arrayIndex', (req, res) => {
+    const {arrayIndex} = req.params
+    Bread.splice(arrayIndex, 1)
+    res.status(303).redirect('/breads')
+
+  })
 
 module.exports = breads

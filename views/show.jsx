@@ -1,9 +1,10 @@
 const React = require('react')
 const Default = require('./layouts/default')
 
-function Show( { bread }){
+function Show( { bread, arrayIndex }){
     return(
         <Default>
+            
             <h3>{bread.name}</h3>
           
             <p>
@@ -14,6 +15,9 @@ function Show( { bread }){
                 Have Gluten 
             </p>
             <img src={bread.image} alt={bread.name} />
+            <form action={`/breads/${arrayIndex}?_method=DELETE`} method='POST'>
+                <input type='submit' value='DELETE'/>
+            </form>
             <li>
                 <a href={'/breads'}>Go Home</a>
             </li>
