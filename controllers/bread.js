@@ -13,6 +13,15 @@ breads.get('/', (req, res) => {
  
 })
 
+// edit 
+ breads.get('/:arrayIndex/edit', (req, res) =>{
+  const { arrayIndex } = req.params 
+  res.render('edit',{
+      bread: Bread[arrayIndex],
+      arrayIndex: arrayIndex
+  })
+ })
+
 breads.get('/new',(req, res) =>{
   res.render('new')
 })
@@ -51,11 +60,6 @@ breads.get('/:arrayIndex', (req, res) => {
     })
   })
   
-  breads.post('/', (req, res) =>{
-
-  })
-
-
   // Delete
 
   breads.delete('/:arrayIndex', (req, res) => {
@@ -63,6 +67,18 @@ breads.get('/:arrayIndex', (req, res) => {
     Bread.splice(arrayIndex, 1)
     res.status(303).redirect('/breads')
 
+  })
+
+  breads.put('/:arrayIndex', (req, res) =>{
+    const { arrayIndex } = req.params
+    if (!req.body.image) req.body.image = 'https://thumbs.dreamstime.com/b/bread-cut-14027607.jpg'
+    if(req.body.hasGluten === 'on'){
+      req.body.hasGluten = true
+    }else {
+    req.body.hasGluten = false
+  }
+    Bread[arrayIndex] = req.body
+    res.status(303).redirect(`/breads/${arrayIndex}`)
   })
 
 module.exports = breads

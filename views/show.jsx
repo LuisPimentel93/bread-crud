@@ -15,6 +15,9 @@ function Show( { bread, arrayIndex }){
                 Have Gluten 
             </p>
             <img src={bread.image} alt={bread.name} />
+            <a href={`/breads/${arrayIndex}/edit`}>
+                <button>Edit</button>
+            </a>
             <form action={`/breads/${arrayIndex}?_method=DELETE`} method='POST'>
                 <input type='submit' value='DELETE'/>
             </form>
