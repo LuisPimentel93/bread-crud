@@ -14,11 +14,12 @@ breads.get('/', async (req, res) => {
 })
 
 // edit 
-breads.get('/:arrayIndex/edit', (req, res) => {
-  const { arrayIndex } = req.params 
+breads.get('/:id/edit',  async (req, res) => {
+  const { id } = req.params 
+  const bread = await Bread.findById(id)
   res.render('edit',{
-    bread: Bread[arrayIndex],
-    arrayIndex: arrayIndex
+    bread
+    
   })
 })
 
@@ -28,6 +29,7 @@ breads.get('/new',(req, res) => {
 
 breads.post('/', async (req, res) => {
   if (!req.body.image) req.body.image = undefined
+
   if(req.body.hasGluten === 'on'){
     req.body.hasGluten = true
   }else {
@@ -42,7 +44,7 @@ breads.post('/', async (req, res) => {
 
 breads.get('/', (req, res) => {
   res.render('Index',{          
-    breads: Bread,
+    bread: Bread,
     title: "Index Pages"
   })
 })
@@ -59,23 +61,23 @@ breads.get('/:id', async (req, res) => {
 })
     
 // Delete
-breads.delete('/:arrayIndex', (req, res) => {
-  const {arrayIndex} = req.params
-  Bread.splice(arrayIndex, 1)
+breads.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  await Bread.findByIdAndDelete(id)
   res.status(303).redirect('/breads')
 
 })
 
-breads.put('/:arrayIndex', (req, res) => {
-  const { arrayIndex } = req.params
-  // if (!req.body.image) req.body.image = 'https://thumbs.dreamstime.com/b/bread-cut-14027607.jpg'
+breads.put('/:id', async (req, res) => {
+  const { id } = req.params
+  if (!req.body.image) req.body.image = undefined
   if(req.body.hasGluten === 'on'){
     req.body.hasGluten = true
   }else {
     req.body.hasGluten = false
   }
-  Bread[arrayIndex] = req.body
-  res.status(303).redirect(`/breads/${arrayIndex}`)
+  await Bread.findByIdAndUpdate(id, req.body)
+  res.status(303).redirect(`/breads/${id}`)
 })
 
 module.exports = breads

@@ -1,32 +1,32 @@
 const React = require('react')
 const Default = require('./layouts/default')
 
-function Edit({bread, arrayIndex}) {
+function Edit({bread}) {
     return (
       <Default>
         <h2>Edit a bread</h2>
-        <form action={`/breads/${arrayIndex}?_method=PUT`} method='POST'>
+        <form action={`/breads/${bread.id}?_method=PUT`} method='POST'>
           <label htmlFor="name">Name</label>
           <input
             type="text"
             name="name"
             id="name"
             required
-            defaultValue={bread.name}
+            defaultValue={bread.id.name}
           />
           <label htmlFor="image">Image</label>
           <input
             type="text"
             name="image"
             id="image"
-            defaultValue={bread.image}
+            defaultValue={bread.id.image}
           />
           <label htmlFor="hasGluten">Has Gluten?</label>
           <input
             type="checkbox"
             name="hasGluten"
             id="hasGluten"
-            defaultChecked={bread.hasGluten}
+            defaultChecked={bread.id.hasGluten}
           />
           <br />
           <input type="submit"/>
