@@ -2,12 +2,15 @@
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread.js')
+const Baker = require('../models/baker.js')
 
 // INDEX
 breads.get('/', async (req, res) => {
   const bread = await Bread.find()
-  res.render('Index',{          
+  const bakers = await Baker.find().populate('breads')
+  res.render('index',{          
     breads: bread,
+    bakers,
     title: "Index Pages"
   })
 
@@ -17,14 +20,16 @@ breads.get('/', async (req, res) => {
 breads.get('/:id/edit',  async (req, res) => {
   const { id } = req.params 
   const bread = await Bread.findById(id)
+  const bakers = await Baker.find()
   res.render('edit',{
-    bread
-    
+    bread,
+    bakers
   })
 })
 
-breads.get('/new',(req, res) => {
-  res.render('new')
+breads.get('/new', async (req, res) => {
+  const bakers = await Baker.find()
+  res.render('new', {bakers})
 })
 
 breads.post('/', async (req, res) => {
@@ -53,7 +58,7 @@ breads.get('/', (req, res) => {
 // SHOW
 breads.get('/:id', async (req, res) => {
   const { id } = req.params
-  const bread = await Bread.findById(id)
+  const bread = await Bread.findById(id).populate('baker')
   res.render('show', {
     bread
     
