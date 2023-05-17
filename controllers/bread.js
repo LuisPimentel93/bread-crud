@@ -1,4 +1,3 @@
-
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread.js')
@@ -7,7 +6,7 @@ const Baker = require('../models/baker.js')
 // INDEX
 breads.get('/', async (req, res) => {
   const bread = await Bread.find()
-  const bakers = await Baker.find().populate('breads')
+  const bakers = await Baker.find()
   res.render('index',{          
     breads: bread,
     bakers,
@@ -64,7 +63,8 @@ breads.get('/:id', async (req, res) => {
     
   })
 })
-    
+
+
 // Delete
 breads.delete('/:id', async (req, res) => {
   const { id } = req.params
